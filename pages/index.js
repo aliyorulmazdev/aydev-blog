@@ -1,46 +1,57 @@
-import { Row, Col } from "react-bootstrap";
-import PageLayout from "../components/PageLayout";
-import AuthorIntro from "../components/AuthorIntro";
-import CardItem from "@/components/CardItem";
-import CardListItem from "@/components/CardListItem";
-import { getAllBlogs } from "@/lib/api";
+import { useState } from 'react';
 
-export default function Home({ blogs }) {
+import { Row, Button } from 'react-bootstrap';
+import PageLayout from 'components/PageLayout';
+import AuthorIntro from 'components/AuthorIntro';
+import FilteringMenu from 'components/FilteringMenu';
+
+import { useGetBlogsPages } from 'actions/pagination';
+import { getPaginatedBlogs } from 'lib/api';
+
+export default function Home({blogs}) {
+  const [filter, setFilter] = useState({
+    view: { list: 0 },
+    date: { asc: 0 }
+  });
+
+  const {
+    pages,
+    isLoadingMore,
+    isReachingEnd,
+    loadMore
+  } = useGetBlogsPages({blogs, filter});
+
   return (
     <PageLayout>
       <AuthorIntro />
-      <hr />
+      <FilteringMenu
+        filter={filter}
+        onChange={(option, value) =>
+          setFilter({...filter, [option]: value})
+        }
+      />
+      <hr/>
       <Row className="mb-5">
-        {/* <Col md="10">
-            <CardListItem />
-          </Col> */}
-
-        {blogs.map((blog) => (
-          <Col key={blog.slug} md="4">
-            <CardItem
-              title={blog.title}
-              subtitle={blog.subtitle}
-              date={blog.date}
-              image={blog.coverImage}
-              author={blog.author}
-              slug={blog.slug}
-              link={{
-                href:'/blogs/[slug]',
-                as:`/blogs/${blog.slug}`
-              }}
-            />
-          </Col>
-        ))}
+        {pages}
       </Row>
+      <div style={{textAlign: 'center'}}>
+        <Button
+          onClick={loadMore}
+          disabled={isReachingEnd || isLoadingMore}
+          size="lg"
+          variant="outline-secondary">
+          {isLoadingMore ? '...' : isReachingEnd ? 'No more blogs' : 'More Blogs'}
+        </Button>
+      </div>
     </PageLayout>
-  );
+  )
 }
 
 export async function getStaticProps() {
-  const blogs = await getAllBlogs();
+  const blogs = await getPaginatedBlogs({offset: 0, date: 'desc'});
   return {
     props: {
-      blogs,
-    },
-  };
+      blogs
+    }
+  }
 }

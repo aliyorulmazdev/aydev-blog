@@ -1,8 +1,12 @@
+import ThemeProvider from 'providers/ThemeProvider';
+import '@fortawesome/fontawesome-svg-core/styles.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'highlight.js/styles/codepen-embed.css';
-import '../styles/index.scss';
+import 'highlight.js/styles/darcula.css';
+import 'styles/index.scss';
+import "react-toggle/style.css"
+import React from 'react';
 
-
-export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
+export default ({Component, pageProps}) =>
+  <ThemeProvider>
+    <Component {...pageProps} />
+  </ThemeProvider>
