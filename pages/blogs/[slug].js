@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import PageLayout from 'components/PageLayout';
 import BlogHeader from 'components/BlogHeader';
 import ErrorPage from 'next/error';
@@ -9,7 +10,7 @@ import { useRouter } from 'next/router';
 
 import BlogContent from 'components/BlogContent';
 
-const BlogDetail = ({blog}) => {
+const BlogDetail = ({ blog }) => {
   const router = useRouter();
 
   if (!router.isFallback && !blog?.slug) {
@@ -25,39 +26,47 @@ const BlogDetail = ({blog}) => {
     )
   }
 
+  const pageTitle = `ayDevBlog - ${blog.title}`;
+
   return (
-    <PageLayout className="blog-detail-page">
-      <Row>
-        <Col md={{ span: 10, offset: 1 }}>
-          <BlogHeader
-            title={blog.title}
-            subtitle={blog.subtitle}
-            coverImage={urlFor(blog.coverImage).height(600).url()}
-            author={blog.author}
-            date={moment(blog.date).format('LLL')}
-          />
-          <hr/>
-          { blog.content &&
-            <BlogContent content={blog.content} />
-          }
-        </Col>
-      </Row>
-    </PageLayout>
+    <>
+      <Head>
+        <title>{pageTitle}</title>
+      </Head>
+
+      <PageLayout className="blog-detail-page">
+        <Row>
+          <Col md={{ span: 10, offset: 1 }}>
+            <BlogHeader
+              title={blog.title}
+              subtitle={blog.subtitle}
+              coverImage={urlFor(blog.coverImage).height(600).url()}
+              author={blog.author}
+              date={moment(blog.date).format('LLL')}
+            />
+            <hr/>
+            { blog.content &&
+              <BlogContent content={blog.content} />
+            }
+          </Col>
+        </Row>
+      </PageLayout>
+    </>
   )
 }
 
-export async function getStaticProps({params}) {
+export async function getStaticProps({ params }) {
   const blog = await getBlogBySlug(params.slug);
   return {
-    props: {blog},
-    revalidate:1
+    props: { blog },
+    revalidate: 1
   }
 }
 
 // TODO: Introduce fallback
 export async function getStaticPaths() {
   const blogs = await getAllBlogs();
-  const paths = blogs?.map(b => ({params: {slug: b.slug}}));
+  const paths = blogs?.map(b => ({ params: { slug: b.slug } }));
   return {
     paths,
     fallback: true

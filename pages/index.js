@@ -13,8 +13,7 @@ export default function Home({ blogs }) {
     date: { asc: 0 }
   });
 
-  const pageTitle = 'aydevBlog - Çarpıcı bir öğrenci yazılımcı sözü'; // Başlık metni
-
+  const pageTitle = 'aydevBlog - Yazmak, hayal gücünüzü gerçeğe dönüştürmenin sihirli bir yoludur."'; 
   const {
     pages,
     isLoadingMore,
@@ -26,7 +25,6 @@ export default function Home({ blogs }) {
     <>
       <Head>
         <title>{pageTitle}</title>
-        {/* Diğer meta etiketlerini buraya ekleyebilirsiniz */}
       </Head>
 
       <PageLayout>
