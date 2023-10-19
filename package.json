@@ -28,6 +28,6 @@
     "react-refractor": "^2.1.7",
     "react-toggle": "^4.1.1",
     "sass": "^1.69.4",
-    "swr": "^0.2.2"
+    "swr": "^2.2.4"
   }
 }

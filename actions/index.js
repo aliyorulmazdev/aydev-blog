@@ -11,3 +11,5 @@ export const useGetBlogs = ({offset, filter}, initialData) => {
      fetcher,
      { initialData })
 }
+
+export const getBlogs = (url) => fetcher(url);
