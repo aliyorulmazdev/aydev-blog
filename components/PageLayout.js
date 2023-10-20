@@ -1,5 +1,4 @@
 import { Container } from 'react-bootstrap';
-import Head from 'next/head';
 import Navbar from './Navbar';
 import { useTheme } from 'providers/ThemeProvider';
 
@@ -7,9 +6,6 @@ export default function PageLayout({children, className}) {
   const { theme, toggleTheme } = useTheme();
   return (
     <div className={theme.type}>
-      <Head>
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
-      </Head>
       <Container>
         <Navbar
           theme={theme}
@@ -20,9 +16,9 @@ export default function PageLayout({children, className}) {
         </div>
         <footer className="page-footer">
           <div>
-            <a href="#">courses</a>{' | '}
-            <a href="#">github</a>{' | '}
-            <a href="#">facebook</a>
+            <a href="https://github.com/aliyorulmazdev">github</a>{' | '}
+            <a href="https://www.linkedin.com/in/ali-yorulmaz-1a67a518a/">linkedIn</a>{' | '}
+            <a href="mailto:ali.yorulmaz@campus.netkent.edu.tr">mail</a>
           </div>
         </footer>
       </Container>

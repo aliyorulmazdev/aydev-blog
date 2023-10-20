@@ -26,7 +26,6 @@ export default function Home({ blogs }) {
       <Head>
         <title>{pageTitle}</title>
       </Head>
-
       <PageLayout>
         <AuthorIntro />
         <FilteringMenu
